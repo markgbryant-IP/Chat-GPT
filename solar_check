@@ -1,0 +1,35 @@
+from datetime import datetime
+import requests
+
+# Function to get solar radiation data using the Solcast API
+def get_solar_radiation(latitude, longitude, date_time):
+    # Solcast API URL
+    url = "https://api.solcast.com.au/world_radiation/estimated_actuals"
+
+    # API parameters
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "format": "json",
+        "api_key": "YOUR_API_KEY",  # Replace with your API Key
+        "start": date_time.isoformat(),
+        "end": date_time.isoformat()
+    }
+
+    # Send request to Solcast API
+    response = requests.get(url, params=params)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+# Coordinates for South Molton, Devon and the specific datetime
+latitude = 51.0183
+longitude = -3.8356
+date_time = datetime(2023, 11, 1, 10, 0)
+
+# Fetch solar radiation data
+solar_radiation_data = get_solar_radiation(latitude, longitude, date_time)
+solar_radiation_data
